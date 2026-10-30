@@ -1,0 +1,31 @@
+{
+  "title": "The Zaveri Jewellers Heist",
+  "summary": "Overnight, Zaveri Jewellers was robbed of a diamond necklace and gold bangles. The back window was smashed, but the main safe was opened without any damage. Suspects: night guard Rohan, store manager Priya, and Danish, a salesman fired two months ago.",
+  "evidence": [
+    {"fact": "victim(Zaveri_Jewellers)",                  "cf": 1.0,  "source": "FIR No. 98/2026"},
+    {"fact": "crime_scene(Showroom)",                     "cf": 1.0,  "source": "FIR No. 98/2026"},
+    {"fact": "forced_entry(Showroom)",                    "cf": 0.9,  "source": "Back window smashed"},
+    {"fact": "entry_damage_from_inside(Showroom)",        "cf": 0.8,  "source": "Glass fragments found OUTSIDE the window"},
+    {"fact": "safe_opened_without_force(Main_Safe)",      "cf": 0.9,  "source": "Safe technician report"},
+    {"fact": "stolen_item(Diamond_Necklace)",             "cf": 1.0,  "source": "Owner's inventory"},
+    {"fact": "stolen_item(Gold_Bangles)",                 "cf": 1.0,  "source": "Owner's inventory"},
+
+    {"fact": "suspect(Rohan)",                            "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Priya)",                            "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Danish)",                           "cf": 1.0,  "source": "Investigating officer"},
+
+    {"fact": "on_duty_at(Rohan, Showroom)",               "cf": 1.0,  "source": "Duty roster - night shift 22:00-06:00"},
+    {"fact": "has_key(Rohan, Showroom)",                  "cf": 1.0,  "source": "Night guard"},
+    {"fact": "knows_code(Rohan, Main_Safe)",              "cf": 0.7,  "source": "Manager says he 'may have seen' her enter it"},
+    {"fact": "financial_trouble(Rohan)",                  "cf": 0.8,  "source": "Two loan defaults in 6 months"},
+    {"fact": "lied_in_statement(Rohan)",                  "cf": 0.6,  "source": "Claimed to be on rounds; CCTV of rounds is blank 01:00-02:30"},
+
+    {"fact": "has_key(Priya, Showroom)",                  "cf": 1.0,  "source": "Store manager"},
+    {"fact": "knows_code(Priya, Main_Safe)",              "cf": 1.0,  "source": "Store manager"},
+    {"fact": "alibi_verified(Priya)",                     "cf": 0.7,  "source": "At a wedding in another city - photos"},
+
+    {"fact": "quarrel_with(Danish, Zaveri_Jewellers)",    "cf": 0.7,  "source": "Fired for misconduct; threatened to 'get even'"},
+    {"fact": "possessed_item(Danish, Gold_Bangles)",      "cf": 0.75, "source": "Pawn-shop record with his ID"},
+    {"fact": "knows_code(Danish, Main_Safe)",             "cf": 0.4,  "source": "Code was not changed after he left"}
+  ]
+}

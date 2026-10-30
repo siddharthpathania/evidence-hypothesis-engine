@@ -1,0 +1,31 @@
+{
+  "title": "The Professor's Last Note",
+  "summary": "Dr. Iyer, head of the Chemistry department, was found dead in Lab 204 with a typed-and-signed suicide note beside him. Toxicology found cyanide. Was it suicide - or murder made to look like one?",
+  "evidence": [
+    {"fact": "victim(Dr_Iyer)",                           "cf": 1.0,  "source": "Police report"},
+    {"fact": "crime_scene(Lab_204)",                      "cf": 1.0,  "source": "Police report"},
+    {"fact": "time_of_death(Dr_Iyer, 18:00, 20:00)",      "cf": 0.85, "source": "Post-mortem report"},
+    {"fact": "toxin_found(Dr_Iyer, Cyanide)",             "cf": 0.95, "source": "Toxicology report"},
+    {"fact": "suicide_note(Dr_Iyer)",                     "cf": 0.9,  "source": "Found on the desk"},
+    {"fact": "handwriting_mismatch(Dr_Iyer)",             "cf": 0.85, "source": "Questioned-document examiner: signature forged"},
+    {"fact": "history_of_depression(Dr_Iyer)",            "cf": 0.4,  "source": "Colleague's statement (unconfirmed)"},
+    {"fact": "no_forced_entry(Lab_204)",                  "cf": 1.0,  "source": "Scene inspection"},
+
+    {"fact": "suspect(Nikhil)",                           "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Dr_Sharma)",                        "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Anita)",                            "cf": 1.0,  "source": "Investigating officer"},
+
+    {"fact": "access_to_substance(Nikhil, Cyanide)",      "cf": 0.8,  "source": "PhD student with chemical-store access"},
+    {"fact": "quarrel_with(Nikhil, Dr_Iyer)",             "cf": 0.7,  "source": "Thesis rejected; loud argument heard"},
+    {"fact": "seen_at(Nikhil, Lab_204, 19:15)",           "cf": 0.8,  "source": "Security guard statement"},
+    {"fact": "destroyed_evidence(Nikhil)",                "cf": 0.6,  "source": "Deleted emails with the victim (recovered by cyber cell)"},
+
+    {"fact": "beneficiary_of(Dr_Sharma, Dr_Iyer)",        "cf": 0.6,  "source": "Takes over the Rs 5 crore research grant"},
+    {"fact": "purchased(Dr_Sharma, Cyanide)",             "cf": 0.7,  "source": "Chemical purchase register, 3 weeks earlier"},
+    {"fact": "has_key(Dr_Sharma, Lab_204)",               "cf": 0.9,  "source": "Department key register"},
+    {"fact": "seen_at(Dr_Sharma, Lab_204, 17:30)",        "cf": 0.8,  "source": "Lab entry log"},
+
+    {"fact": "beneficiary_of(Anita, Dr_Iyer)",            "cf": 0.8,  "source": "Wife - life insurance nominee"},
+    {"fact": "alibi_verified(Anita)",                     "cf": 0.9,  "source": "At a family wedding in Pune - photos and witnesses"}
+  ]
+}

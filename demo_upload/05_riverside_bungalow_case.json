@@ -1,0 +1,40 @@
+{
+  "title": "The Riverside Bungalow Case",
+  "summary": "Retired banker Mr. Suresh Malhotra was found dead in the living room of his bungalow on the night of 22 August. A rear window was smashed and jewellery and cash were missing, so at first it looked like a burglary gone wrong. Three people are under suspicion: his son-in-law Vikas, the domestic help Raju, and the neighbour Mr. Bedi.",
+  "evidence": [
+    {"fact": "victim(Suresh)",                               "cf": 1.0,  "source": "FIR No. 342/2026"},
+    {"fact": "crime_scene(Living_Room)",                     "cf": 1.0,  "source": "FIR No. 342/2026"},
+    {"fact": "time_of_death(Suresh, 22:30, 00:30)",          "cf": 0.9,  "source": "Post-mortem report"},
+    {"fact": "wound_matches(Suresh, Brass_Statue)",          "cf": 0.85, "source": "Post-mortem report - blunt force trauma"},
+    {"fact": "blood_on(Brass_Statue, Suresh)",               "cf": 0.95, "source": "Forensic lab report FSL-77"},
+    {"fact": "defensive_wounds(Suresh)",                     "cf": 0.8,  "source": "Post-mortem report"},
+
+    {"fact": "forced_entry(Living_Room)",                    "cf": 0.9,  "source": "Rear window smashed"},
+    {"fact": "entry_damage_from_inside(Living_Room)",        "cf": 0.85, "source": "Glass found on the lawn OUTSIDE; no footprints in the wet soil"},
+    {"fact": "stolen_item(Gold_Chain)",                      "cf": 1.0,  "source": "Family inventory"},
+    {"fact": "stolen_item(Cash_Box)",                        "cf": 1.0,  "source": "Family inventory"},
+    {"fact": "footprint_at(Living_Room, 10)",                "cf": 0.6,  "source": "Partial shoe print in blood"},
+
+    {"fact": "suspect(Vikas)",                               "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Raju)",                                "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Bedi)",                                "cf": 1.0,  "source": "Investigating officer"},
+
+    {"fact": "beneficiary_of(Vikas, Suresh)",                "cf": 0.85, "source": "Will - wife (Vikas's spouse) inherits the bungalow"},
+    {"fact": "financial_trouble(Vikas)",                     "cf": 0.8,  "source": "Failed business, Rs 80 lakh in debt"},
+    {"fact": "has_key(Vikas, Living_Room)",                  "cf": 0.9,  "source": "Daughter's statement - spare key"},
+    {"fact": "shoe_size(Vikas, 10)",                         "cf": 1.0,  "source": "Seized footwear"},
+    {"fact": "seen_at(Vikas, Living_Room, 23:50)",           "cf": 0.65, "source": "Neighbour's doorbell camera - car matching his parked outside"},
+    {"fact": "lied_in_statement(Vikas)",                     "cf": 0.75, "source": "Claimed he was home all night; phone tower places him nearby"},
+    {"fact": "dna_on(Vikas, Brass_Statue)",                  "cf": 0.7,  "source": "Forensic lab report FSL-77 (touch DNA)"},
+
+    {"fact": "has_key(Raju, Living_Room)",                   "cf": 1.0,  "source": "Domestic help - keeps a key"},
+    {"fact": "possessed_item(Raju, Gold_Chain)",             "cf": 0.8,  "source": "Pawned at a jeweller's two days later - CCTV + ID"},
+    {"fact": "financial_trouble(Raju)",                      "cf": 0.5,  "source": "Owes money to a local lender"},
+    {"fact": "shoe_size(Raju, 8)",                           "cf": 1.0,  "source": "Seized footwear"},
+    {"fact": "fingerprint_on(Raju, Brass_Statue)",           "cf": 0.4,  "source": "Smudged print - he dusts the statue daily"},
+
+    {"fact": "quarrel_with(Bedi, Suresh)",                   "cf": 0.7,  "source": "Long-running boundary-wall dispute; police complaint filed"},
+    {"fact": "threatened(Bedi, Suresh)",                     "cf": 0.5,  "source": "Shouted threats last month (two witnesses)"},
+    {"fact": "alibi_verified(Bedi)",                         "cf": 0.9,  "source": "Hospital admission records - in ward all night"}
+  ]
+}

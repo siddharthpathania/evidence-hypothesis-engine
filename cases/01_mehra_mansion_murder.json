@@ -1,0 +1,38 @@
+{
+  "title": "The Mehra Mansion Murder",
+  "summary": "Industrialist Vikram Mehra was found stabbed in the study of his mansion on the night of 14 March. The study door was locked from the outside and there was no sign of forced entry. Four people are under suspicion: his nephew Arjun, business partner Kabir, housekeeper Meera and former driver Sunil.",
+  "evidence": [
+    {"fact": "victim(Vikram)",                            "cf": 1.0,  "source": "FIR No. 221/2026"},
+    {"fact": "crime_scene(Study)",                        "cf": 1.0,  "source": "FIR No. 221/2026"},
+    {"fact": "time_of_death(Vikram, 21:00, 23:00)",       "cf": 0.9,  "source": "Post-mortem report"},
+    {"fact": "wound_matches(Vikram, Letter_Opener)",      "cf": 0.9,  "source": "Post-mortem report"},
+    {"fact": "blood_on(Letter_Opener, Vikram)",           "cf": 0.95, "source": "Forensic lab report FL-12"},
+    {"fact": "defensive_wounds(Vikram)",                  "cf": 0.9,  "source": "Post-mortem report"},
+    {"fact": "no_forced_entry(Study)",                    "cf": 0.9,  "source": "Scene inspection"},
+    {"fact": "footprint_at(Study, 9)",                    "cf": 0.7,  "source": "Scene inspection (partial print on carpet)"},
+
+    {"fact": "suspect(Arjun)",                            "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Kabir)",                            "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Meera)",                            "cf": 1.0,  "source": "Investigating officer"},
+    {"fact": "suspect(Sunil)",                            "cf": 1.0,  "source": "Investigating officer"},
+
+    {"fact": "beneficiary_of(Arjun, Vikram)",             "cf": 0.9,  "source": "Will held by family lawyer - Arjun inherits 60%"},
+    {"fact": "fingerprint_on(Arjun, Letter_Opener)",      "cf": 0.85, "source": "Forensic lab report FL-12"},
+    {"fact": "seen_at(Arjun, Study, 22:10)",              "cf": 0.7,  "source": "Corridor CCTV (face partly hidden)"},
+    {"fact": "has_key(Arjun, Study)",                     "cf": 0.9,  "source": "Statement of housekeeper"},
+    {"fact": "shoe_size(Arjun, 9)",                       "cf": 1.0,  "source": "Seized footwear"},
+    {"fact": "lied_in_statement(Arjun)",                  "cf": 0.8,  "source": "Claimed to be at a cinema; ticket was for the 18:00 show"},
+    {"fact": "alibi_contradicted(Arjun)",                 "cf": 0.8,  "source": "Cinema CCTV shows him leaving at 20:15"},
+
+    {"fact": "threatened(Kabir, Vikram)",                 "cf": 0.8,  "source": "Email dated 2 March: 'you will regret this'"},
+    {"fact": "owes_money(Kabir, Vikram)",                 "cf": 0.7,  "source": "Bank records - unpaid loan of Rs 2 crore"},
+    {"fact": "alibi_verified(Kabir)",                     "cf": 0.95, "source": "Boarding pass + Delhi hotel CCTV"},
+
+    {"fact": "has_key(Meera, Study)",                     "cf": 1.0,  "source": "Household staff register"},
+    {"fact": "fingerprint_on(Meera, Letter_Opener)",      "cf": 0.6,  "source": "Forensic lab report FL-12 (old, smudged print)"},
+
+    {"fact": "quarrel_with(Sunil, Vikram)",               "cf": 0.6,  "source": "Fired last week after an argument - witness statement"},
+    {"fact": "shoe_size(Sunil, 9)",                       "cf": 1.0,  "source": "Seized footwear"},
+    {"fact": "seen_at(Sunil, Main_Gate, 20:30)",          "cf": 0.8,  "source": "Gate security log"}
+  ]
+}

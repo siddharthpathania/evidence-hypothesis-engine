@@ -1,0 +1,4 @@
+# The engine and CLI (main.py) use only the Python standard library.
+# These are needed only for the web interface (app.py):
+streamlit>=1.50
+pandas>=2.0

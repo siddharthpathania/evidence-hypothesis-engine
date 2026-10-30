@@ -1,0 +1,365 @@
+# ===========================================================================
+#  CRIME INVESTIGATION KNOWLEDGE BASE
+#  ---------------------------------------------------------------------------
+#  Syntax
+#    RULE <id> "<description>"
+#      IF   <premise>            (variables start with ?)
+#      AND  <premise>            (as many ANDs as needed)
+#      THEN <conclusion>
+#      CF   <certainty factor of the rule, -1.0 .. +1.0>
+#
+#    A NEGATIVE CF means "this evidence argues AGAINST the conclusion".
+#    Built-in tests usable as premises: eq, neq, lt, le, gt, ge, between(x, lo, hi)
+#
+#    ASK <predicate> "<question>"      -> evidence the engine may ask the investigator for
+#    HYPOTHESIS <predicate> "<text>"   -> conclusions shown in the final report
+#
+#  The classic investigative triad used here:
+#    MOTIVE (why)  +  MEANS (how)  +  OPPORTUNITY (when/where)  =>  CULPRIT
+# ===========================================================================
+
+HYPOTHESIS culprit           "Who most likely committed the crime"
+HYPOTHESIS manner_of_death   "How the victim died"
+HYPOTHESIS murder_weapon     "Which object was the weapon"
+HYPOTHESIS inside_job        "Was the crime committed by someone with legitimate access?"
+HYPOTHESIS staged_break_in   "Was the break-in faked to mislead investigators?"
+HYPOTHESIS staged_suicide    "Was a murder disguised as a suicide?"
+HYPOTHESIS possible_collusion "Did two people act together?"
+
+# --------------------------------------------------------------------------
+# 1. Identifying the weapon
+# --------------------------------------------------------------------------
+RULE R01 "Victim's blood on an object marks it as the likely weapon"
+  IF   victim(?v)
+  AND  blood_on(?o, ?v)
+  THEN murder_weapon(?o)
+  CF   0.8
+
+RULE R02 "Post-mortem wound pattern matches the object"
+  IF   victim(?v)
+  AND  wound_matches(?v, ?o)
+  THEN murder_weapon(?o)
+  CF   0.85
+
+# --------------------------------------------------------------------------
+# 2. Linking people to the weapon
+# --------------------------------------------------------------------------
+RULE R10 "Fingerprints on the weapon link a person to it"
+  IF   murder_weapon(?o)
+  AND  fingerprint_on(?p, ?o)
+  THEN handled_weapon(?p)
+  CF   0.8
+
+RULE R11 "DNA on the weapon links a person to it"
+  IF   murder_weapon(?o)
+  AND  dna_on(?p, ?o)
+  THEN handled_weapon(?p)
+  CF   0.9
+
+# --------------------------------------------------------------------------
+# 3. Placing people at the scene
+# --------------------------------------------------------------------------
+RULE R20 "Seen at the scene during the time-of-death window"
+  IF   victim(?v)
+  AND  time_of_death(?v, ?start, ?end)
+  AND  crime_scene(?l)
+  AND  seen_at(?p, ?l, ?t)
+  AND  between(?t, ?start, ?end)
+  THEN present_at_scene(?p)
+  CF   0.9
+
+RULE R21 "Footprint at the scene matches the person's shoe size"
+  IF   crime_scene(?l)
+  AND  footprint_at(?l, ?size)
+  AND  shoe_size(?p, ?size)
+  THEN present_at_scene(?p)
+  CF   0.5
+
+RULE R22 "Person's DNA found at the scene"
+  IF   crime_scene(?l)
+  AND  dna_on(?p, ?l)
+  THEN present_at_scene(?p)
+  CF   0.75
+
+RULE R23 "Was on duty at the scene when the crime happened"
+  IF   crime_scene(?l)
+  AND  on_duty_at(?p, ?l)
+  THEN present_at_scene(?p)
+  CF   0.7
+
+# --------------------------------------------------------------------------
+# 4. Scene reconstruction - how did the offender get in?
+# --------------------------------------------------------------------------
+RULE R25 "No forced entry suggests someone with legitimate access"
+  IF   crime_scene(?l)
+  AND  no_forced_entry(?l)
+  THEN inside_job(?l)
+  CF   0.6
+
+RULE R26 "Damage made from the inside means the break-in was staged"
+  IF   crime_scene(?l)
+  AND  entry_damage_from_inside(?l)
+  THEN staged_break_in(?l)
+  CF   0.85
+
+RULE R27 "A staged break-in points to an insider"
+  IF   staged_break_in(?l)
+  THEN inside_job(?l)
+  CF   0.9
+
+RULE R28 "A forced entry argues against an inside job"
+  IF   crime_scene(?l)
+  AND  forced_entry(?l)
+  THEN inside_job(?l)
+  CF   -0.4
+
+RULE R29 "In an inside job, key-holders had access"
+  IF   inside_job(?l)
+  AND  has_key(?p, ?l)
+  THEN access_to_scene(?p)
+  CF   0.75
+
+# --------------------------------------------------------------------------
+# 5. OPPORTUNITY
+# --------------------------------------------------------------------------
+RULE R30 "Presence at the scene gives opportunity"
+  IF   present_at_scene(?p)
+  THEN opportunity(?p)
+  CF   0.9
+
+RULE R31 "Access to the scene gives opportunity"
+  IF   access_to_scene(?p)
+  THEN opportunity(?p)
+  CF   0.6
+
+RULE R32 "A verified alibi rules out opportunity"
+  IF   alibi_verified(?p)
+  THEN opportunity(?p)
+  CF   -0.9
+
+RULE R33 "A false alibi suggests the person was free to act"
+  IF   alibi_contradicted(?p)
+  THEN opportunity(?p)
+  CF   0.4
+
+# --------------------------------------------------------------------------
+# 6. MEANS
+# --------------------------------------------------------------------------
+RULE R40 "Handling the weapon gives the means"
+  IF   handled_weapon(?p)
+  THEN means(?p)
+  CF   0.9
+
+RULE R41 "Owning the weapon gives the means"
+  IF   murder_weapon(?o)
+  AND  owns(?p, ?o)
+  THEN means(?p)
+  CF   0.6
+
+RULE R42 "Bought the poison found in the victim"
+  IF   victim(?v)
+  AND  toxin_found(?v, ?s)
+  AND  purchased(?p, ?s)
+  THEN means(?p)
+  CF   0.9
+
+RULE R43 "Had access to the poison found in the victim"
+  IF   victim(?v)
+  AND  toxin_found(?v, ?s)
+  AND  access_to_substance(?p, ?s)
+  THEN means(?p)
+  CF   0.6
+
+RULE R44 "Safe opened without force by someone who knew the code"
+  IF   safe_opened_without_force(?x)
+  AND  knows_code(?p, ?x)
+  THEN means(?p)
+  CF   0.8
+
+# --------------------------------------------------------------------------
+# 7. MOTIVE
+# --------------------------------------------------------------------------
+RULE R50 "Gains financially from the victim (will, insurance, business)"
+  IF   victim(?v)
+  AND  beneficiary_of(?p, ?v)
+  THEN motive(?p)
+  CF   0.7
+
+RULE R51 "Owes the victim money"
+  IF   victim(?v)
+  AND  owes_money(?p, ?v)
+  THEN motive(?p)
+  CF   0.6
+
+RULE R52 "Threatened the victim"
+  IF   victim(?v)
+  AND  threatened(?p, ?v)
+  THEN motive(?p)
+  CF   0.75
+
+RULE R53 "Had a serious quarrel with the victim"
+  IF   victim(?v)
+  AND  quarrel_with(?p, ?v)
+  THEN motive(?p)
+  CF   0.5
+
+RULE R54 "Under financial pressure"
+  IF   financial_trouble(?p)
+  THEN motive(?p)
+  CF   0.4
+
+# --------------------------------------------------------------------------
+# 8. Behaviour after the crime ("consciousness of guilt")
+# --------------------------------------------------------------------------
+RULE R60 "Lied in a statement"
+  IF   lied_in_statement(?p)
+  THEN guilty_behaviour(?p)
+  CF   0.6
+
+RULE R61 "Destroyed or hid evidence"
+  IF   destroyed_evidence(?p)
+  THEN guilty_behaviour(?p)
+  CF   0.8
+
+RULE R62 "Gave a false alibi"
+  IF   alibi_contradicted(?p)
+  THEN guilty_behaviour(?p)
+  CF   0.7
+
+# --------------------------------------------------------------------------
+# 9. Stolen property
+# --------------------------------------------------------------------------
+RULE R70 "Found with (or sold) stolen property"
+  IF   stolen_item(?i)
+  AND  possessed_item(?p, ?i)
+  THEN linked_to_loot(?p)
+  CF   0.85
+
+# --------------------------------------------------------------------------
+# 10. Manner of death
+# --------------------------------------------------------------------------
+RULE R80 "Defensive wounds mean the victim fought an attacker"
+  IF   victim(?v)
+  AND  defensive_wounds(?v)
+  THEN manner_of_death(?v, homicide)
+  CF   0.85
+
+RULE R81 "A suicide note suggests suicide"
+  IF   victim(?v)
+  AND  suicide_note(?v)
+  THEN manner_of_death(?v, suicide)
+  CF   0.6
+
+RULE R82 "History of depression weakly suggests suicide"
+  IF   victim(?v)
+  AND  history_of_depression(?v)
+  THEN manner_of_death(?v, suicide)
+  CF   0.3
+
+RULE R83 "The note was not written by the victim - not a suicide"
+  IF   victim(?v)
+  AND  handwriting_mismatch(?v)
+  THEN manner_of_death(?v, suicide)
+  CF   -0.9
+
+RULE R84 "A forged note means the suicide was staged"
+  IF   victim(?v)
+  AND  handwriting_mismatch(?v)
+  THEN staged_suicide(?v)
+  CF   0.85
+
+RULE R85 "A staged suicide is a homicide"
+  IF   staged_suicide(?v)
+  THEN manner_of_death(?v, homicide)
+  CF   0.9
+
+RULE R86 "Someone ELSE bought the poison found in the victim"
+  IF   victim(?v)
+  AND  toxin_found(?v, ?s)
+  AND  purchased(?p, ?s)
+  AND  neq(?p, ?v)
+  THEN manner_of_death(?v, homicide)
+  CF   0.7
+
+RULE R87 "The victim bought the poison personally"
+  IF   victim(?v)
+  AND  toxin_found(?v, ?s)
+  AND  purchased(?v, ?s)
+  THEN manner_of_death(?v, suicide)
+  CF   0.6
+
+# --------------------------------------------------------------------------
+# 11. CULPRIT - the final hypotheses
+# --------------------------------------------------------------------------
+RULE R100 "Motive, means and opportunity all present"
+  IF   suspect(?p)
+  AND  motive(?p)
+  AND  means(?p)
+  AND  opportunity(?p)
+  THEN culprit(?p)
+  CF   0.9
+
+RULE R101 "Means and opportunity plus guilty behaviour"
+  IF   suspect(?p)
+  AND  means(?p)
+  AND  opportunity(?p)
+  AND  guilty_behaviour(?p)
+  THEN culprit(?p)
+  CF   0.75
+
+RULE R102 "Motive and opportunity (means unknown)"
+  IF   suspect(?p)
+  AND  motive(?p)
+  AND  opportunity(?p)
+  THEN culprit(?p)
+  CF   0.45
+
+RULE R103 "Motive and means (opportunity unknown)"
+  IF   suspect(?p)
+  AND  motive(?p)
+  AND  means(?p)
+  THEN culprit(?p)
+  CF   0.4
+
+RULE R104 "In possession of the stolen property"
+  IF   suspect(?p)
+  AND  linked_to_loot(?p)
+  THEN culprit(?p)
+  CF   0.7
+
+RULE R105 "A verified alibi argues against guilt"
+  IF   suspect(?p)
+  AND  alibi_verified(?p)
+  THEN culprit(?p)
+  CF   -0.8
+
+RULE R110 "One person holds the loot while another had the opportunity"
+  IF   linked_to_loot(?a)
+  AND  opportunity(?b)
+  AND  neq(?a, ?b)
+  THEN possible_collusion(?a, ?b)
+  CF   0.6
+
+# --------------------------------------------------------------------------
+# Evidence the engine may ask the investigator about (interactive mode)
+# --------------------------------------------------------------------------
+ASK fingerprint_on          "Were {0}'s fingerprints found on the {1}?"
+ASK dna_on                  "Was {0}'s DNA found on/at the {1}?"
+ASK owns                    "Does {0} own the {1}?"
+ASK seen_at                 "Was {0} seen at the {1} (time: {2})?"
+ASK shoe_size               "Does {0} wear shoe size {1}?"
+ASK on_duty_at              "Was {0} on duty at the {1} at the time?"
+ASK has_key                 "Does {0} have a key to the {1}?"
+ASK beneficiary_of          "Does {0} gain financially from {1}'s death/loss?"
+ASK owes_money              "Does {0} owe money to {1}?"
+ASK threatened              "Has {0} ever threatened {1}?"
+ASK quarrel_with            "Did {0} have a serious quarrel with {1}?"
+ASK financial_trouble       "Is {0} in financial trouble?"
+ASK alibi_verified          "Has {0}'s alibi been independently verified?"
+ASK alibi_contradicted      "Has {0}'s alibi been contradicted?"
+ASK lied_in_statement       "Did {0} lie in a statement?"
+ASK destroyed_evidence      "Did {0} destroy or hide evidence?"
+ASK purchased               "Did {0} purchase {1}?"
+ASK access_to_substance     "Did {0} have access to {1}?"
+ASK knows_code              "Does {0} know the code of the {1}?"
+ASK possessed_item          "Was {0} found with (or did they sell) the {1}?"

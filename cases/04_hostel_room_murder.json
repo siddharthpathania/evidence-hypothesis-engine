@@ -1,0 +1,23 @@
+{
+  "title": "The Hostel Room Murder",
+  "summary": "A student, Rahul, was found dead in Room 12 of the boys' hostel. Two suspects: his roommate Aman and a senior, Karan.",
+  "evidence": [
+    {"fact": "victim(Rahul)",                         "cf": 1.0,  "source": "FIR"},
+    {"fact": "crime_scene(Room_12)",                  "cf": 1.0,  "source": "FIR"},
+    {"fact": "time_of_death(Rahul, 23:00, 01:00)",    "cf": 0.9,  "source": "Post-mortem"},
+    {"fact": "blood_on(Cricket_Bat, Rahul)",          "cf": 0.9,  "source": "Forensic report"},
+    {"fact": "defensive_wounds(Rahul)",               "cf": 0.8,  "source": "Post-mortem"},
+
+    {"fact": "suspect(Aman)",                         "cf": 1.0,  "source": "Police"},
+    {"fact": "suspect(Karan)",                        "cf": 1.0,  "source": "Police"},
+
+    {"fact": "owns(Aman, Cricket_Bat)",               "cf": 1.0,  "source": "Hostel inventory"},
+    {"fact": "alibi_verified(Aman)",                  "cf": 0.9,  "source": "At home in another city - train ticket"},
+
+    {"fact": "owes_money(Karan, Rahul)",              "cf": 0.8,  "source": "UPI records - Rs 50,000 loan"},
+    {"fact": "threatened(Karan, Rahul)",              "cf": 0.7,  "source": "WhatsApp messages"},
+    {"fact": "fingerprint_on(Karan, Cricket_Bat)",    "cf": 0.85, "source": "Forensic report"},
+    {"fact": "seen_at(Karan, Room_12, 23:40)",        "cf": 0.8,  "source": "Hostel corridor CCTV"},
+    {"fact": "lied_in_statement(Karan)",              "cf": 0.7,  "source": "Said he was asleep by 22:00"}
+  ]
+}
